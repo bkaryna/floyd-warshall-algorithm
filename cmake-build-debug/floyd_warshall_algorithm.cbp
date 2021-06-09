@@ -83,6 +83,9 @@
 		<Unit filename="/Users/karynababenko/Desktop/floyd-warshall-algorithm/main.cpp">
 			<Option target="floyd_warshall_algorithm"/>
 		</Unit>
+		<Unit filename="/Users/karynababenko/Desktop/floyd-warshall-algorithm/matrix.h">
+			<Option target="floyd_warshall_algorithm"/>
+		</Unit>
 		<Unit filename="/Users/karynababenko/Desktop/floyd-warshall-algorithm/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/karynababenko/Desktop/floyd-warshall-algorithm/main.cpp
+matrix.h
+/Users/karynababenko/Desktop/floyd-warshall-algorithm/matrix.h
+vector
+-
+
+/Users/karynababenko/Desktop/floyd-warshall-algorithm/matrix.h
+iostream
+-
+string
+-
+
