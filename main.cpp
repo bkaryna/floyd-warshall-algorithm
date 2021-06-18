@@ -2,78 +2,82 @@
 #include <vector>
 using namespace std;
 
-
 void floydWarshall(Matrix &D, Matrix &P) {
     for (int k = 0; k < D.size; k++) {
         for (int i = 0; i < D.size; i++) {
             for (int j = 0; j < D.size; j++) {
+                //prevent addition and subtraction operations on pseudo INF values  (inf +/- inf = inf)
                 int sum;
                 if (D.data[i][k] == INF || D.data[k][j] == INF) {
                     sum = INF;
                 } else {
                     sum = D.data[i][k] + D.data[k][j];
                 }
-
+                //
                 if (D.data[i][j] > sum)
                     P.data[i][j] = P.data[i][k];
                 D.data[i][j] = min(D.data[i][j], sum);
             }
         }
-        //D.print_D();
-        P.print_P();
     }
 }
 
-void printShortestPath(Matrix Graph, int start, int end) {
-    if (start == end){
-        cout<<"\nPath between "<<start<<" and "<<end<<" -> "<<start;
+void printShortestPath(Matrix successorsMatrix, int from, int to) {
+    if (from == to) {
+        cout << "\nPath between " << from << " and " << to << ": {" << from << "}";
         return;
     }
 
-    if(Graph.data[start][end] == NIL){
-        cout<<"\nNo path"<<endl;
+    if (successorsMatrix.data[from][to] == NIL) {
+        cout << "\nNo path between " << from << " and " << to;
         return;
     }
-    cout<<"\nPath between "<<start<<" and "<<end<<" -> "<<start;
-    while(start!=end) {
-        start = Graph.data[start][end];
-        cout<<" -> "<<start;
+
+    cout << "\nPath between " << from << " and " << to << ": " << from;
+    while (from != to) {
+        from = successorsMatrix.data[from][to];
+        cout << " -> {" << from << "}";
     }
 }
+
 int main() {
+    Matrix W(5);//node pair matrix
+    Matrix P(5);//successors matrix
 
-    Matrix W(5);
-    Matrix P(5);
-
+    //initialize node pair matrix
     vector<int> values{0, 6, INF, INF, INF, INF, 0, -5, INF, 2, INF, INF, 0, 4, INF, 7, 1, INF, 0, INF, -4, INF, 8, 3, 0};
-    //vector<int> successors{NIL, 5, NIL, NIL, NIL, NIL, NIL, 4, NIL, 4, NIL, NIL, NIL, 3, NIL, 2, 2, NIL, NIL, NIL, 1, NIL, 1, 1, NIL};
     for (int i = 0; i < W.size; i++) {
         for (int j = 0; j < W.size; j++) {
             W.data[i][j] = values.back();
-            //W.data[i][j].succ = successors.back();
             values.pop_back();
-            //successors.pop_back();
         }
     }
 
-    for (int i = 0; i < W.size; i++)
-        for (int j = 0; j < W.size; j++)
-            P.data[i][j] = j;
-
-
-    //P.print_P();
+    //initialize successors pair matrix
+    for (int i = 0; i < W.size; i++) {
+        for (int j = 0; j < W.size; j++) {
+            if (W.data[i][j] == INF)
+                P.data[i][j] = NIL;
+            else
+                P.data[i][j] = j;
+        }
+    }
 
     floydWarshall(W, P);
 
-    cout<<endl<<"Po algorytmie:\n";
-//    W.print_D();
-    P.print_P();
+    cout << endl
+         << "Results\nNode pair matrix:\n";
+    W.print();
+    cout << "Successors matrix:\n";
+    P.print();
 
+    //print shortest path between two nodes + cost
     for (int i = 0; i < W.size; i++) {
         for (int j = 0; j < W.size; j++) {
             printShortestPath(P, i, j);
-            cout<<"\tCost: "<<W.data[i][j]<<endl;
+            cout << ";\t\tCost: " << W.data[i][j] << endl;
         }
     }
+
     return 0;
 }
